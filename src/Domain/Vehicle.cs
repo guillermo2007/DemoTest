@@ -22,6 +22,8 @@ namespace Domain
             Color = color;
         }
 
+        public Guid Id { get; set; }
+
         public string Name { get; set; }
         public int Wheels { get; protected set; }
         public decimal Weight { get; set; }

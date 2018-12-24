@@ -4,13 +4,15 @@
     {
         public Speedometer()
         {
-
+            Velocity = 0;
+            Kilometers = 0;
+            Limit = null;
         }
         
         public int Velocity { get; set; }
-        public int Kilometers { get; set; }
+        public static int Kilometers { get; set; }
         public int? Limit { get; set; }
-        public int Regulator { get; set; }
+        public int? Regulator { get; set; }
 
         public void UpVelocity()
         {
@@ -22,6 +24,16 @@
         public void DownVelocity()
         {
             Velocity--;
+        }
+
+        public bool IsRegulatorOn()
+        {
+            return Regulator.HasValue;   
+        }
+
+        public bool IsLimitOn()
+        {
+            return Limit.HasValue;
         }
 
     }

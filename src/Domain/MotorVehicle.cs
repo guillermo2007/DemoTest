@@ -19,5 +19,6 @@ namespace Domain
         public int Cv { get; set; }
         public int CC { get; set; }
         public MotorType MotorType { get; set; }
+        public Speedometer Speedometer { get; set; }
     }
 }
