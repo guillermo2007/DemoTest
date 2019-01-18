@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AutoFixture;
+using AutoFixture.Kernel;
 using Domain.Enum;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -20,7 +21,7 @@ namespace Domain.Test
         [TestMethod]
         public void CreateMotorcycle125ccRed()
         {
-            var motoCycle = new Motorcycle("Yamaha", (decimal)150, Color.Red, 27, 125, MotorType.Gasoline);
+            var motoCycle = new Motocycle("Yamaha", (decimal)150, Color.Red, 27, 125, MotorType.Gasoline);
 
             Assert.AreEqual(Color.Red, motoCycle.Color);
             Assert.AreEqual(125, motoCycle.CC);
@@ -29,7 +30,7 @@ namespace Domain.Test
         [TestMethod]
         public void CreateMotorcycleFixture()
         {
-            var motoCycle = _fixture.Create<Motorcycle>();
+            var motoCycle = _fixture.Create<Motocycle>();
 
             Assert.IsNotNull(motoCycle);
         }
@@ -37,7 +38,7 @@ namespace Domain.Test
         [TestMethod]
         public void CreateMotorcycleWithOutSpeedometerFixture()
         {
-            var motoCycle = _fixture.Build<Motorcycle>()
+            var motoCycle = _fixture.Build<Motocycle>()                                       
                                     .Without(p => p.Speedometer)
                                     .Create();
 
@@ -47,9 +48,9 @@ namespace Domain.Test
 
         [TestMethod]
         public void CreateMotorcycleWithSameName()
-        {            
+        {
             _fixture.Register<string>(() => "Motorcycle");
-            var motoCycle = _fixture.Build<Motorcycle>()                                 
+            var motoCycle = _fixture.Build<Motocycle>()
                                     .Create();
 
             Assert.AreEqual(motoCycle.Name, "Motorcycle");
@@ -58,7 +59,7 @@ namespace Domain.Test
         [TestMethod]
         public void CreateSomeMotorcycleFixture()
         {
-            var motorCycle = _fixture.CreateMany<Motorcycle>();
+            var motorCycle = _fixture.CreateMany<Motocycle>();
 
             Assert.IsTrue(motorCycle.Count() > 1);
         }
@@ -67,12 +68,26 @@ namespace Domain.Test
         public void CreateManyMotorcyclesWithSameName()
         {
             _fixture.Register<string>(() => "Motorcycle");
-            var motorCycles = _fixture.CreateMany<Motorcycle>();
+            var motorCycles = _fixture.CreateMany<Motocycle>();
 
             foreach (var motor in motorCycles)
             {
                 Assert.AreEqual(motor.Name, "Motorcycle");
             }
+        }
+
+        [TestMethod]
+        public void CreateAnyVehicle()
+        {
+            _fixture.Customizations.Add(
+                                    new TypeRelay(
+                                        typeof(Vehicle),
+                                        typeof(Motocycle)));
+
+            var vehicle = _fixture.Create<Vehicle>();
+
+            Assert.IsTrue(vehicle is Motocycle);
+
         }
     }
 }

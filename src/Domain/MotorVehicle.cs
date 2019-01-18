@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain
 {
-    public abstract class MotorVehicle : Vehicle
+    public class MotorVehicle : Vehicle
     {
         public MotorVehicle(string name, int wheels, decimal weight, Color color, int cv, int cc, MotorType motorType) : base(name, wheels,weight,color)
         {
